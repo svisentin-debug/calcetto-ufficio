@@ -543,6 +543,488 @@
     .rank-stats { gap: 8px; }
     .stat-chip { font-size: 10px; padding: 2px 6px; }
   }
+
+  /* ===== KINGS LEAGUE ===== */
+  :root {
+    --kings-gold: #FFD700;
+    --kings-gold2: #FFA500;
+    --kings-dark: #0a0a0f;
+    --kings-card: #12121a;
+    --kings-border: #2a2a3a;
+    --kings-glow: rgba(255,215,0,0.25);
+  }
+
+  #kings-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--kings-dark);
+    z-index: 500;
+    overflow-y: auto;
+    background-image:
+      radial-gradient(ellipse at 50% 0%, rgba(255,215,0,0.08) 0%, transparent 60%),
+      linear-gradient(rgba(255,215,0,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,215,0,0.02) 1px, transparent 1px);
+    background-size: auto, 30px 30px, 30px 30px;
+  }
+  #kings-overlay.open { display: block; }
+
+  .kings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--kings-border);
+    background: rgba(10,10,15,0.95);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(12px);
+  }
+  .kings-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .kings-shield {
+    width: 38px;
+    height: 44px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .kings-shield svg { width: 100%; height: 100%; }
+  .kings-title-wrap { line-height: 1.2; }
+  .kings-title {
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, var(--kings-gold), var(--kings-gold2), #fff8dc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .kings-subtitle {
+    font-size: 10px;
+    color: #666;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .kings-back-btn {
+    background: none;
+    border: 1px solid var(--kings-border);
+    color: #666;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .kings-back-btn:hover { border-color: var(--kings-gold); color: var(--kings-gold); }
+
+  .kings-nav {
+    display: flex;
+    gap: 4px;
+    padding: 12px 24px;
+    border-bottom: 1px solid var(--kings-border);
+  }
+  .kings-nav-btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--kings-border);
+    background: transparent;
+    color: #666;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .kings-nav-btn:hover { border-color: var(--kings-gold); color: var(--kings-gold); }
+  .kings-nav-btn.active {
+    background: linear-gradient(135deg, var(--kings-gold), var(--kings-gold2));
+    color: #000;
+    border-color: transparent;
+  }
+
+  .kings-main { padding: 24px; max-width: 700px; margin: 0 auto; }
+
+  /* PARTITA SECTION */
+  .kings-match-setup {
+    background: var(--kings-card);
+    border: 1px solid var(--kings-border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kings-match-setup::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--kings-gold), transparent);
+  }
+  .kings-section-title {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #555;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .kings-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--kings-border);
+  }
+
+  /* PLAYER VS PLAYER */
+  .kings-vs-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .kings-player-slot {
+    flex: 1;
+    background: rgba(255,215,0,0.04);
+    border: 1px solid var(--kings-border);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    transition: all 0.2s;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .kings-player-slot.selected {
+    border-color: var(--kings-gold);
+    background: rgba(255,215,0,0.08);
+    box-shadow: 0 0 20px rgba(255,215,0,0.1);
+  }
+  .kings-player-slot .slot-label { font-size: 10px; color: #555; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .kings-player-slot .slot-name { font-size: 16px; font-weight: 800; color: var(--kings-gold); }
+  .kings-vs-sep {
+    font-size: 18px;
+    font-weight: 900;
+    color: #333;
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+  }
+
+  /* CHIPS */
+  .kings-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .kings-chip {
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--kings-border);
+    background: transparent;
+    color: #666;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .kings-chip:hover { border-color: var(--kings-gold); color: var(--kings-gold); }
+  .kings-chip.sel-p1 { background: rgba(255,215,0,0.15); color: var(--kings-gold); border-color: var(--kings-gold); }
+  .kings-chip.sel-p2 { background: rgba(255,100,0,0.15); color: var(--kings-gold2); border-color: var(--kings-gold2); }
+  .kings-chip.disabled { opacity: 0.25; pointer-events: none; }
+
+  /* SCORE */
+  .kings-score-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .kings-score-player { flex: 1; text-align: center; }
+  .kings-score-name { font-size: 13px; font-weight: 800; margin-bottom: 8px; }
+  .kings-score-name.p1 { color: var(--kings-gold); }
+  .kings-score-name.p2 { color: var(--kings-gold2); }
+  .kings-score-controls { display: flex; align-items: center; gap: 8px; justify-content: center; }
+  .kings-score-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--kings-border);
+    background: rgba(255,255,255,0.04);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Be Vietnam Pro', sans-serif;
+  }
+  .kings-score-btn:hover { border-color: var(--kings-gold); background: rgba(255,215,0,0.08); }
+  .kings-score-num {
+    font-size: 40px;
+    font-weight: 900;
+    min-width: 52px;
+    text-align: center;
+    line-height: 1;
+  }
+  .kings-score-num.p1 { color: var(--kings-gold); text-shadow: 0 0 20px rgba(255,215,0,0.4); }
+  .kings-score-num.p2 { color: var(--kings-gold2); text-shadow: 0 0 20px rgba(255,150,0,0.4); }
+  .kings-score-sep { font-size: 28px; font-weight: 900; color: #333; }
+
+  .kings-goal-10 {
+    text-align: center;
+    font-size: 11px;
+    color: #444;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+
+  /* WINNER BANNER */
+  .kings-winner-banner {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,150,0,0.05));
+    border: 1px solid rgba(255,215,0,0.3);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    animation: winnerPulse 1s ease-in-out infinite alternate;
+  }
+  @keyframes winnerPulse {
+    from { box-shadow: 0 0 20px rgba(255,215,0,0.1); }
+    to { box-shadow: 0 0 40px rgba(255,215,0,0.3); }
+  }
+  .kings-winner-banner.show { display: block; }
+  .kings-winner-text { font-size: 22px; font-weight: 900; color: var(--kings-gold); letter-spacing: 0.05em; }
+  .kings-winner-sub { font-size: 12px; color: #666; margin-top: 4px; font-weight: 600; }
+
+  /* CARDS SECTION */
+  .kings-cards-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .kings-player-cards {
+    background: var(--kings-card);
+    border: 1px solid var(--kings-border);
+    border-radius: 14px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kings-player-cards.p1-area { border-top: 2px solid var(--kings-gold); }
+  .kings-player-cards.p2-area { border-top: 2px solid var(--kings-gold2); }
+  .kings-cards-player-name {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .kings-cards-player-name.p1 { color: var(--kings-gold); }
+  .kings-cards-player-name.p2 { color: var(--kings-gold2); }
+  .kings-cards-remaining {
+    font-size: 10px;
+    color: #555;
+    font-weight: 700;
+    background: rgba(255,255,255,0.04);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  .kings-draw-btn {
+    width: 100%;
+    padding: 11px;
+    border-radius: 10px;
+    border: 1px solid var(--kings-border);
+    background: rgba(255,215,0,0.06);
+    color: var(--kings-gold);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+  .kings-draw-btn:hover:not(:disabled) {
+    background: rgba(255,215,0,0.14);
+    box-shadow: 0 0 16px rgba(255,215,0,0.15);
+    transform: translateY(-1px);
+  }
+  .kings-draw-btn.p2-btn { color: var(--kings-gold2); background: rgba(255,150,0,0.06); }
+  .kings-draw-btn.p2-btn:hover:not(:disabled) { background: rgba(255,150,0,0.14); box-shadow: 0 0 16px rgba(255,150,0,0.15); }
+  .kings-draw-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  .kings-active-cards { display: flex; flex-direction: column; gap: 8px; }
+
+  /* THE CARD */
+  .kings-card-item {
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid rgba(255,215,0,0.2);
+    background: rgba(255,215,0,0.05);
+    animation: cardDeal 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative;
+  }
+  .kings-card-item.p2-card { border-color: rgba(255,150,0,0.2); background: rgba(255,150,0,0.05); }
+  .kings-card-item.used { opacity: 0.35; }
+  @keyframes cardDeal {
+    from { transform: scale(0.7) rotateY(90deg); opacity: 0; }
+    to { transform: scale(1) rotateY(0deg); opacity: 1; }
+  }
+  .kings-card-emoji { font-size: 22px; margin-bottom: 4px; }
+  .kings-card-name { font-size: 12px; font-weight: 800; color: var(--kings-gold); margin-bottom: 2px; }
+  .kings-card-item.p2-card .kings-card-name { color: var(--kings-gold2); }
+  .kings-card-desc { font-size: 10px; color: #666; font-weight: 600; line-height: 1.4; margin-bottom: 8px; }
+  .kings-use-btn {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,215,0,0.3);
+    background: transparent;
+    color: var(--kings-gold);
+    cursor: pointer;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+  }
+  .kings-card-item.p2-card .kings-use-btn { border-color: rgba(255,150,0,0.3); color: var(--kings-gold2); }
+  .kings-use-btn:hover { background: rgba(255,215,0,0.1); }
+  .kings-card-item.p2-card .kings-use-btn:hover { background: rgba(255,150,0,0.1); }
+  .kings-card-item.used .kings-use-btn { display: none; }
+  .kings-used-stamp {
+    display: none;
+    position: absolute;
+    top: 8px; right: 8px;
+    font-size: 9px;
+    font-weight: 800;
+    color: #555;
+    letter-spacing: 0.08em;
+    border: 1px solid #333;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transform: rotate(10deg);
+  }
+  .kings-card-item.used .kings-used-stamp { display: block; }
+
+  /* ACTIVE CARD EFFECT BANNER */
+  .kings-effect-banner {
+    display: none;
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: linear-gradient(135deg, #1a1a00, #2a2000);
+    border: 1px solid var(--kings-gold);
+    border-radius: 14px;
+    padding: 16px 28px;
+    z-index: 600;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(255,215,0,0.3);
+    animation: effectSlide 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    max-width: 320px;
+    width: 90%;
+  }
+  @keyframes effectSlide {
+    from { transform: translateX(-50%) translateY(-40px) scale(0.9); opacity: 0; }
+    to { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+  }
+  .kings-effect-banner.show { display: block; }
+  .kings-effect-icon { font-size: 36px; margin-bottom: 6px; }
+  .kings-effect-title { font-size: 16px; font-weight: 900; color: var(--kings-gold); letter-spacing: 0.08em; margin-bottom: 4px; }
+  .kings-effect-desc { font-size: 12px; color: #aaa; font-weight: 600; line-height: 1.4; margin-bottom: 12px; }
+  .kings-effect-close {
+    padding: 7px 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,215,0,0.3);
+    background: rgba(255,215,0,0.1);
+    color: var(--kings-gold);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .kings-effect-close:hover { background: rgba(255,215,0,0.2); }
+
+  /* CLASSIFICA KINGS */
+  .kings-rank-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,215,0,0.06);
+  }
+  .kings-rank-row:last-child { border-bottom: none; }
+  .kings-rank-num { font-size: 12px; font-weight: 800; width: 22px; text-align: center; color: #555; flex-shrink: 0; }
+  .kings-rank-num.gold { color: var(--kings-gold); }
+  .kings-rank-num.silver { color: #aaa; }
+  .kings-rank-num.bronze { color: #cd7f32; }
+  .kings-rank-name { flex: 1; font-size: 14px; font-weight: 700; color: #ddd; }
+  .kings-stat {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 6px;
+  }
+  .kings-stat.w { background: rgba(255,215,0,0.12); color: var(--kings-gold); }
+  .kings-stat.l { background: rgba(255,68,68,0.12); color: #ff6666; }
+  .kings-stat.r { background: rgba(255,255,255,0.05); color: #888; }
+
+  /* SUBMIT KINGS MATCH BTN */
+  .kings-submit-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, var(--kings-gold), var(--kings-gold2));
+    color: #000;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 14px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.06em;
+  }
+  .kings-submit-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,215,0,0.35); }
+  .kings-submit-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* KINGS ENTRY BUTTON in nav */
+  .kings-entry-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,215,0,0.3);
+    background: rgba(255,215,0,0.06);
+    color: var(--kings-gold);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+  }
+  .kings-entry-btn:hover { background: rgba(255,215,0,0.14); box-shadow: 0 0 16px rgba(255,215,0,0.15); border-color: var(--kings-gold); }
 </style>
 </head>
 <body>
@@ -569,6 +1051,7 @@
   <button class="nav-btn" data-section="scommesse">🎲 Scommesse</button>
   <button class="nav-btn" data-section="registra">+ Registra</button>
   <button class="nav-btn" data-section="giocatori">👤 Giocatori</button>
+  <button class="kings-entry-btn" onclick="openKings()">&#11088; KINGS</button>
 </nav>
 
 <div class="months-bar" id="monthsBar"></div>
@@ -684,6 +1167,186 @@
       <button class="submit-btn" onclick="submitAnnounce()">Annuncia</button>
     </div>
   </div>
+</div>
+
+<!-- KINGS LEAGUE OVERLAY -->
+<div id="kings-overlay">
+  <div class="kings-header">
+    <div class="kings-logo">
+      <div class="kings-shield">
+        <svg viewBox="0 0 38 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 2L35 8V22C35 31 27 38.5 19 42C11 38.5 3 31 3 22V8L19 2Z" fill="url(#kg)" stroke="rgba(255,215,0,0.4)" stroke-width="1"/>
+          <text x="19" y="27" text-anchor="middle" font-size="14" font-weight="900" fill="#000" font-family="Be Vietnam Pro, sans-serif">K</text>
+          <defs>
+            <linearGradient id="kg" x1="19" y1="2" x2="19" y2="42" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#FFD700"/>
+              <stop offset="100%" stop-color="#B8860B"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="kings-title-wrap">
+        <div class="kings-title">Kings League</div>
+        <div class="kings-subtitle">Balilla Edition</div>
+      </div>
+    </div>
+    <button class="kings-back-btn" onclick="closeKings()">← Torna all'app</button>
+  </div>
+
+  <div class="kings-nav">
+    <button class="kings-nav-btn active" data-kings-tab="partita">⚔️ Partita</button>
+    <button class="kings-nav-btn" data-kings-tab="classifica">👑 Classifica</button>
+    <button class="kings-nav-btn" data-kings-tab="regole">📜 Regole</button>
+  </div>
+
+  <div class="kings-main">
+
+    <!-- TAB: PARTITA -->
+    <div id="kings-tab-partita">
+
+      <!-- SETUP GIOCATORI -->
+      <div class="kings-match-setup" id="kings-setup-section">
+        <div class="kings-section-title">Seleziona i giocatori</div>
+        <div class="kings-vs-row">
+          <div class="kings-player-slot" id="kings-slot-p1">
+            <span class="slot-label">Giocatore 1</span>
+            <span class="slot-name" id="kings-p1-name">—</span>
+          </div>
+          <div class="kings-vs-sep">VS</div>
+          <div class="kings-player-slot" id="kings-slot-p2">
+            <span class="slot-label">Giocatore 2</span>
+            <span class="slot-name" id="kings-p2-name">—</span>
+          </div>
+        </div>
+        <div class="kings-chips" id="kings-player-chips"></div>
+        <div style="margin-top:16px;">
+          <button class="kings-submit-btn" id="kings-start-btn" onclick="startKingsMatch()" disabled>⚔️ Inizia Partita</button>
+        </div>
+      </div>
+
+      <!-- PARTITA IN CORSO -->
+      <div id="kings-match-section" style="display:none">
+
+        <!-- SCORE -->
+        <div class="kings-match-setup">
+          <div class="kings-section-title">Punteggio — primo a 10 vince</div>
+          <div class="kings-winner-banner" id="kings-winner-banner">
+            <div class="kings-winner-text" id="kings-winner-text">🏆 VITTORIA!</div>
+            <div class="kings-winner-sub">Registra la partita per salvare il risultato</div>
+          </div>
+          <div class="kings-score-row">
+            <div class="kings-score-player">
+              <div class="kings-score-name p1" id="score-p1-name">P1</div>
+              <div class="kings-score-controls">
+                <button class="kings-score-btn" onclick="changeScore(1,-1)">−</button>
+                <div class="kings-score-num p1" id="score-p1">0</div>
+                <button class="kings-score-btn" onclick="changeScore(1,1)">+</button>
+              </div>
+            </div>
+            <div class="kings-score-sep">:</div>
+            <div class="kings-score-player">
+              <div class="kings-score-name p2" id="score-p2-name">P2</div>
+              <div class="kings-score-controls">
+                <button class="kings-score-btn" onclick="changeScore(2,-1)">−</button>
+                <div class="kings-score-num p2" id="score-p2">0</div>
+                <button class="kings-score-btn" onclick="changeScore(2,1)">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="kings-goal-10">🎯 La partita finisce a 10 gol</div>
+          <div style="display:flex;gap:8px;">
+            <button class="kings-submit-btn" id="kings-save-btn" onclick="saveKingsMatch()" disabled>💾 Registra Risultato</button>
+            <button class="kings-submit-btn" style="background:rgba(255,255,255,0.06);color:#666;border:1px solid #2a2a3a;flex:0 0 auto;width:auto;padding:14px 16px;" onclick="resetKingsMatch()">✕ Reset</button>
+          </div>
+        </div>
+
+        <!-- CARTE -->
+        <div class="kings-section-title" style="padding:0 0 12px 0;margin-bottom:0">🎴 Carte Kings — 2 per giocatore</div>
+        <div class="kings-cards-area">
+          <div class="kings-player-cards p1-area">
+            <div class="kings-cards-player-name p1">
+              <span id="cards-p1-name">P1</span>
+              <span class="kings-cards-remaining" id="cards-p1-rem">2 rimaste</span>
+            </div>
+            <button class="kings-draw-btn" id="draw-p1-btn" onclick="drawCard(1)">🎴 Pesca carta</button>
+            <div class="kings-active-cards" id="cards-p1-list"></div>
+          </div>
+          <div class="kings-player-cards p2-area">
+            <div class="kings-cards-player-name p2">
+              <span id="cards-p2-name">P2</span>
+              <span class="kings-cards-remaining" id="cards-p2-rem">2 rimaste</span>
+            </div>
+            <button class="kings-draw-btn p2-btn" id="draw-p2-btn" onclick="drawCard(2)">🎴 Pesca carta</button>
+            <div class="kings-active-cards" id="cards-p2-list"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB: CLASSIFICA -->
+    <div id="kings-tab-classifica" style="display:none">
+      <div style="background:var(--kings-card);border:1px solid var(--kings-border);border-radius:14px;padding:20px;">
+        <div class="kings-section-title">Classifica Kings League</div>
+        <div id="kings-leaderboard"></div>
+      </div>
+    </div>
+
+    <!-- TAB: REGOLE -->
+    <div id="kings-tab-regole" style="display:none">
+      <div style="background:var(--kings-card);border:1px solid var(--kings-border);border-radius:14px;padding:24px;">
+        <div class="kings-section-title">Regolamento</div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="padding:14px;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.1);border-radius:10px;">
+            <div style="font-size:13px;font-weight:800;color:var(--kings-gold);margin-bottom:6px;">⚔️ Formato partita</div>
+            <div style="font-size:12px;color:#888;line-height:1.7;">Solo 1vs1. Prima a <strong style="color:#ddd">10 gol</strong> vince. Nessun limite di tempo.</div>
+          </div>
+          <div style="padding:14px;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.1);border-radius:10px;">
+            <div style="font-size:13px;font-weight:800;color:var(--kings-gold);margin-bottom:6px;">🎴 Carte Kings</div>
+            <div style="font-size:12px;color:#888;line-height:1.7;">Ogni giocatore ha <strong style="color:#ddd">2 carte</strong> a partita. Si pescano a caso premendo il tasto. Effetto immediato, da usare quando si vuole.</div>
+          </div>
+          <div style="padding:14px;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.1);border-radius:10px;">
+            <div style="font-size:13px;font-weight:800;color:var(--kings-gold);margin-bottom:8px;">📋 Le 5 carte disponibili</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">🌀</span>
+                <div><div style="font-size:12px;font-weight:800;color:#ddd;">Girelle</div><div style="font-size:11px;color:#777;line-height:1.5;">Per il prossimo gol puoi usare le girelle (normalmente vietate).</div></div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">⚽</span>
+                <div><div style="font-size:12px;font-weight:800;color:#ddd;">Penalty</div><div style="font-size:11px;color:#777;line-height:1.5;">Tiro da attacco a portiere avversario, senza difensori. Obbligatorio usare il giocatore centrale.</div></div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">🎯</span>
+                <div><div style="font-size:12px;font-weight:800;color:#ddd;">Shootout</div><div style="font-size:11px;color:#777;line-height:1.5;">Tiro da difesa al portiere avversario. Puoi scegliere liberamente quale giocatore usare senza dichiararlo.</div></div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">🛡️</span>
+                <div><div style="font-size:12px;font-weight:800;color:#ddd;">Bonus/Malus Formazione</div><div style="font-size:11px;color:#777;line-height:1.5;">L'avversario gioca per 1 minuto senza una coppia di barre (la carta indica quale: es. no portiere+attacco, oppure no difesa+centrocampo, ecc.).</div></div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">👥</span>
+                <div><div style="font-size:12px;font-weight:800;color:#ddd;">2vs1</div><div style="font-size:11px;color:#777;line-height:1.5;">Chiami un giocatore dal bordo che ti aiuta per 1 minuto. L'aiutante <strong style="color:#aaa">non ottiene punti</strong> dalla partita.</div></div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:14px;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.1);border-radius:10px;">
+            <div style="font-size:13px;font-weight:800;color:var(--kings-gold);margin-bottom:6px;">🏆 Punteggio</div>
+            <div style="font-size:12px;color:#888;line-height:1.7;">I risultati Kings vanno nella <strong style="color:#ddd">classifica Singolo</strong> principale. Vince = +1 punto.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- KINGS EFFECT BANNER -->
+<div class="kings-effect-banner" id="kings-effect-banner">
+  <div class="kings-effect-icon" id="effect-icon">🎴</div>
+  <div class="kings-effect-title" id="effect-title">CARTA!</div>
+  <div class="kings-effect-desc" id="effect-desc">Descrizione effetto</div>
+  <button class="kings-effect-close" onclick="closeEffectBanner()">Ho capito ✓</button>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -1476,7 +2139,322 @@ function showToast(msg, error=false) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// ---- INIT ----
+// ===== KINGS LEAGUE =====
+
+const KINGS_CARDS = [
+  {
+    id: 'girelle',
+    emoji: '🌀',
+    name: 'Girelle',
+    desc: 'Per il prossimo gol puoi usare le girelle (normalmente vietate).'
+  },
+  {
+    id: 'penalty',
+    emoji: '⚽',
+    name: 'Penalty',
+    desc: 'Tiro da attacco a portiere avversario, senza difensori. Usa il giocatore centrale.'
+  },
+  {
+    id: 'shootout',
+    emoji: '🎯',
+    name: 'Shootout',
+    desc: 'Tiro da difesa al portiere avversario. Scegli liberamente quale giocatore usare.'
+  },
+  {
+    id: 'formazione_no_portiere_attacco',
+    emoji: '🛡️',
+    name: 'Malus: No Portiere & Attacco',
+    desc: "L'avversario gioca 1 minuto senza portiere e senza attacco."
+  },
+  {
+    id: 'formazione_no_difesa_centrocampo',
+    emoji: '🛡️',
+    name: 'Malus: No Difesa & Centrocampo',
+    desc: "L'avversario gioca 1 minuto senza difesa e senza centrocampo."
+  },
+  {
+    id: 'formazione_no_portiere_difesa',
+    emoji: '🛡️',
+    name: 'Malus: No Portiere & Difesa',
+    desc: "L'avversario gioca 1 minuto senza portiere e senza difesa."
+  },
+  {
+    id: 'formazione_no_centrocampo_attacco',
+    emoji: '🛡️',
+    name: 'Malus: No Centrocampo & Attacco',
+    desc: "L'avversario gioca 1 minuto senza centrocampo e senza attacco."
+  },
+  {
+    id: '2vs1',
+    emoji: '👥',
+    name: '2vs1',
+    desc: 'Chiama un giocatore dal bordo che ti aiuta per 1 minuto. Il suo aiuto non gli vale punti.'
+  }
+];
+
+// Kings state
+let kingsP1 = null;
+let kingsP2 = null;
+let kingsScore1 = 0;
+let kingsScore2 = 0;
+let kingsMatchActive = false;
+let kingsCards = {
+  1: { drawn: [], used: [], remaining: 2 },
+  2: { drawn: [], used: [], remaining: 2 }
+};
+let kingsCardPool1 = [];
+let kingsCardPool2 = [];
+
+function openKings() {
+  document.getElementById('kings-overlay').classList.add('open');
+  renderKingsLeaderboard();
+  renderKingsPlayerChips();
+}
+
+function closeKings() {
+  document.getElementById('kings-overlay').classList.remove('open');
+}
+
+// Tab switching
+document.querySelectorAll('.kings-nav-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.kings-nav-btn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    ['partita','classifica','regole'].forEach(t => {
+      document.getElementById('kings-tab-'+t).style.display = b.dataset.kingsTab === t ? '' : 'none';
+    });
+    if (b.dataset.kingsTab === 'classifica') renderKingsLeaderboard();
+  });
+});
+
+function renderKingsPlayerChips() {
+  const el = document.getElementById('kings-player-chips');
+  if (!players.length) { el.innerHTML = '<span style="font-size:12px;color:#555;">Caricamento giocatori...</span>'; return; }
+  el.innerHTML = players.map(p => {
+    const isP1 = kingsP1 === p.name;
+    const isP2 = kingsP2 === p.name;
+    const cls = isP1 ? 'sel-p1' : isP2 ? 'sel-p2' : '';
+    return `<button class="kings-chip ${cls}" data-player="${p.name}">${p.name}</button>`;
+  }).join('');
+  el.querySelectorAll('.kings-chip').forEach(c => {
+    c.addEventListener('click', () => selectKingsPlayer(c.dataset.player));
+  });
+}
+
+function selectKingsPlayer(name) {
+  if (kingsMatchActive) return;
+  if (kingsP1 === name) { kingsP1 = null; }
+  else if (kingsP2 === name) { kingsP2 = null; }
+  else if (!kingsP1) { kingsP1 = name; }
+  else if (!kingsP2) { kingsP2 = name; }
+  else { kingsP1 = kingsP2; kingsP2 = name; }
+
+  document.getElementById('kings-p1-name').textContent = kingsP1 || '—';
+  document.getElementById('kings-p2-name').textContent = kingsP2 || '—';
+  document.getElementById('kings-slot-p1').classList.toggle('selected', !!kingsP1);
+  document.getElementById('kings-slot-p2').classList.toggle('selected', !!kingsP2);
+  document.getElementById('kings-start-btn').disabled = !(kingsP1 && kingsP2);
+  renderKingsPlayerChips();
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startKingsMatch() {
+  if (!kingsP1 || !kingsP2) return;
+  kingsScore1 = 0;
+  kingsScore2 = 0;
+  kingsMatchActive = true;
+  kingsCards = {
+    1: { drawn: [], used: [], remaining: 2 },
+    2: { drawn: [], used: [], remaining: 2 }
+  };
+  // Shuffle card pool for each player independently
+  kingsCardPool1 = shuffleArray(KINGS_CARDS);
+  kingsCardPool2 = shuffleArray(KINGS_CARDS);
+
+  document.getElementById('kings-setup-section').style.display = 'none';
+  document.getElementById('kings-match-section').style.display = '';
+
+  document.getElementById('score-p1-name').textContent = kingsP1;
+  document.getElementById('score-p2-name').textContent = kingsP2;
+  document.getElementById('cards-p1-name').textContent = kingsP1;
+  document.getElementById('cards-p2-name').textContent = kingsP2;
+  document.getElementById('score-p1').textContent = '0';
+  document.getElementById('score-p2').textContent = '0';
+  document.getElementById('cards-p1-list').innerHTML = '';
+  document.getElementById('cards-p2-list').innerHTML = '';
+  document.getElementById('kings-winner-banner').classList.remove('show');
+  document.getElementById('kings-save-btn').disabled = true;
+  updateKingsDrawBtns();
+}
+
+function changeScore(player, delta) {
+  if (!kingsMatchActive) return;
+  if (player === 1) {
+    kingsScore1 = Math.max(0, kingsScore1 + delta);
+    document.getElementById('score-p1').textContent = kingsScore1;
+  } else {
+    kingsScore2 = Math.max(0, kingsScore2 + delta);
+    document.getElementById('score-p2').textContent = kingsScore2;
+  }
+  checkKingsWinner();
+}
+
+function checkKingsWinner() {
+  const banner = document.getElementById('kings-winner-banner');
+  const saveBtn = document.getElementById('kings-save-btn');
+  if (kingsScore1 >= 10) {
+    banner.classList.add('show');
+    document.getElementById('kings-winner-text').textContent = `🏆 ${kingsP1} VINCE!`;
+    saveBtn.disabled = false;
+  } else if (kingsScore2 >= 10) {
+    banner.classList.add('show');
+    document.getElementById('kings-winner-text').textContent = `🏆 ${kingsP2} VINCE!`;
+    saveBtn.disabled = false;
+  } else {
+    banner.classList.remove('show');
+    saveBtn.disabled = true;
+  }
+}
+
+function drawCard(player) {
+  const pool = player === 1 ? kingsCardPool1 : kingsCardPool2;
+  const state = kingsCards[player];
+  if (state.remaining <= 0) return;
+
+  // Pick next undrawn card from pool
+  const nextCard = pool.find(c => !state.drawn.find(d => d.id === c.id));
+  if (!nextCard) return;
+
+  state.drawn.push({ ...nextCard });
+  state.remaining--;
+  updateKingsDrawBtns();
+  renderKingsCards(player);
+  showEffectBanner(nextCard);
+}
+
+function updateKingsDrawBtns() {
+  const s1 = kingsCards[1];
+  const s2 = kingsCards[2];
+  const btn1 = document.getElementById('draw-p1-btn');
+  const btn2 = document.getElementById('draw-p2-btn');
+  btn1.disabled = s1.remaining <= 0;
+  btn2.disabled = s2.remaining <= 0;
+  document.getElementById('cards-p1-rem').textContent = s1.remaining + ' rimast' + (s1.remaining === 1 ? 'a' : 'e');
+  document.getElementById('cards-p2-rem').textContent = s2.remaining + ' rimast' + (s2.remaining === 1 ? 'a' : 'e');
+  if (s1.remaining <= 0) btn1.textContent = '✓ Carte esaurite';
+  if (s2.remaining <= 0) btn2.textContent = '✓ Carte esaurite';
+}
+
+function renderKingsCards(player) {
+  const state = kingsCards[player];
+  const el = document.getElementById('cards-p' + player + '-list');
+  const isP2 = player === 2;
+  el.innerHTML = state.drawn.map((card, i) => {
+    const used = state.used.includes(i);
+    return `<div class="kings-card-item ${isP2 ? 'p2-card' : ''} ${used ? 'used' : ''}" id="kcard-p${player}-${i}">
+      <div class="kings-card-emoji">${card.emoji}</div>
+      <div class="kings-card-name">${card.name}</div>
+      <div class="kings-card-desc">${card.desc}</div>
+      <button class="kings-use-btn" onclick="useCard(${player},${i})">✓ Usa carta</button>
+      <div class="kings-used-stamp">USATA</div>
+    </div>`;
+  }).join('');
+}
+
+function useCard(player, index) {
+  const state = kingsCards[player];
+  if (state.used.includes(index)) return;
+  state.used.push(index);
+  renderKingsCards(player);
+  showToast('Carta usata! ' + state.drawn[index].emoji);
+}
+
+function showEffectBanner(card) {
+  const banner = document.getElementById('kings-effect-banner');
+  document.getElementById('effect-icon').textContent = card.emoji;
+  document.getElementById('effect-title').textContent = card.name.toUpperCase();
+  document.getElementById('effect-desc').textContent = card.desc;
+  banner.classList.add('show');
+}
+
+function closeEffectBanner() {
+  document.getElementById('kings-effect-banner').classList.remove('show');
+}
+
+function resetKingsMatch() {
+  kingsMatchActive = false;
+  kingsScore1 = 0;
+  kingsScore2 = 0;
+  kingsCards = { 1: { drawn: [], used: [], remaining: 2 }, 2: { drawn: [], used: [], remaining: 2 } };
+  document.getElementById('kings-setup-section').style.display = '';
+  document.getElementById('kings-match-section').style.display = 'none';
+  document.getElementById('kings-winner-banner').classList.remove('show');
+  kingsP1 = null;
+  kingsP2 = null;
+  renderKingsPlayerChips();
+  document.getElementById('kings-p1-name').textContent = '—';
+  document.getElementById('kings-p2-name').textContent = '—';
+  document.getElementById('kings-slot-p1').classList.remove('selected');
+  document.getElementById('kings-slot-p2').classList.remove('selected');
+  document.getElementById('kings-start-btn').disabled = true;
+}
+
+async function saveKingsMatch() {
+  const winner = kingsScore1 >= 10 ? kingsP1 : kingsP2;
+  const loser = kingsScore1 >= 10 ? kingsP2 : kingsP1;
+  if (!winner) return;
+  const btn = document.getElementById('kings-save-btn');
+  btn.disabled = true;
+  btn.textContent = 'Salvataggio...';
+  const date = new Date().toISOString().slice(0,10);
+  const month = date.slice(0,7);
+  await sbPost('matches', { winner, loser, winner2: null, loser2: null, date, month, type: 'singolo' });
+  showToast('Partita Kings salvata! 👑');
+  await loadData();
+  renderAll();
+  renderKingsLeaderboard();
+  resetKingsMatch();
+}
+
+function renderKingsLeaderboard() {
+  const kingsMatches = matches; // all singolo matches
+  const stats = {};
+  for (const p of players) stats[p.name] = { wins: 0, losses: 0 };
+  matches.filter(m => m.type === 'singolo').forEach(m => {
+    if (!stats[m.winner]) stats[m.winner] = { wins:0, losses:0 };
+    if (!stats[m.loser]) stats[m.loser] = { wins:0, losses:0 };
+    stats[m.winner].wins++;
+    stats[m.loser].losses++;
+  });
+  const rows = Object.entries(stats).filter(([,v]) => v.wins+v.losses > 0)
+    .sort((a,b) => b[1].wins - a[1].wins || (b[1].wins/(b[1].wins+b[1].losses||1)) - (a[1].wins/(a[1].wins+a[1].losses||1)));
+  const el = document.getElementById('kings-leaderboard');
+  if (!rows.length) { el.innerHTML = '<div style="text-align:center;padding:30px;color:#444;font-size:13px;font-weight:600;">Nessuna partita ancora</div>'; return; }
+  el.innerHTML = rows.map(([name, v], i) => {
+    const wr = v.wins+v.losses ? Math.round(v.wins/(v.wins+v.losses)*100) : 0;
+    const cls = i===0?'gold':i===1?'silver':i===2?'bronze':'';
+    const medal = i===0?'👑':i===1?'🥈':i===2?'🥉':i+1;
+    return `<div class="kings-rank-row">
+      <span class="kings-rank-num ${cls}">${medal}</span>
+      <span class="kings-rank-name">${name}</span>
+      <div style="display:flex;gap:8px;">
+        <span class="kings-stat w">✓ ${v.wins}</span>
+        <span class="kings-stat l">✗ ${v.losses}</span>
+        <span class="kings-stat r">${wr}%</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== END KINGS LEAGUE =====
 document.querySelectorAll('.nav-btn').forEach(b => {
   b.addEventListener('click', () => showSection(b.dataset.section));
 });
